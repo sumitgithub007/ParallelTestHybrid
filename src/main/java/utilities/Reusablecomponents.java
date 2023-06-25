@@ -5,6 +5,9 @@ import static enumPackage.WaitStrategy.VISIBLE;
 import java.util.List;
 
 import enumPackage.WaitStrategy;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -15,8 +18,9 @@ import org.testng.Assert;
 
 public class Reusablecomponents {
 
-    public WebDriver     driver;
+    public WebDriver  driver;
     public WebDriverWait wait;
+    public Logger log = LogManager.getLogger(getClass());
 
     /**
      * It will perform click action
@@ -25,7 +29,9 @@ public class Reusablecomponents {
      */
     public void Click (By locator) {
 
+    	
         getWebElement (VISIBLE, locator).click ();
+        log.info("Clicked Webelement.. " + locator);
 
     }
 
@@ -42,7 +48,9 @@ public class Reusablecomponents {
      */
     public void Type (By locator, String text) {
 
+    	
         getWebElement (VISIBLE, locator).sendKeys (text);
+        log.info("Entering text = " + text + " in WebElement " + locator);
 
     }
 
@@ -76,7 +84,12 @@ public class Reusablecomponents {
      */
     public String getTextValue (By locator) {
 
-        return getWebElement (VISIBLE, locator).getText ();
+    	
+        String text = getWebElement (VISIBLE, locator).getText ();
+        log.info("Fetching text.. " + locator );
+        log.info("Text present = " + text);
+        return text;
+        
 
     }
 
@@ -93,7 +106,10 @@ public class Reusablecomponents {
      * @return
      */
     public WebElement getWebElement (WaitStrategy strategy, By locator) {
-        wait (strategy, locator);
+        
+    	log.info("waiting for "+ locator +" to be " + strategy);
+    	wait(strategy, locator);
+    	log.info("Successfully found " +locator);
         return driver.findElement (locator);
     }
 
@@ -114,8 +130,10 @@ public class Reusablecomponents {
         boolean foundAlert = false;
 
         try {
+        	log.info("waiting for Alert to become visible on webpage");
             wait.until (ExpectedConditions.alertIsPresent ());
             foundAlert = true;
+            log.info("Alert is visible");
         } catch (Exception eTO) {
             foundAlert = false;
         }
@@ -125,18 +143,30 @@ public class Reusablecomponents {
 
     /**
      * Refresh the current Page
+     * @throws InterruptedException 
      */
-    public void refresh () {
+    public void refresh ()   {
     
-        driver.navigate ()
-            .refresh ();
+    	try
+    	{
+    	log.info("Refresh the webpage");
+        driver.navigate ().refresh ();
+        Thread.sleep(1000);
+    	}
+        catch(Exception e)
+        {
+        	log.error("Exception  "+ e);
+        
+    	}
+    	
     }
 
     /**
      * scroll down page based on pixel value
      */
     public void scrollDownPage () {
-
+    	
+    	log.info("scroll down page");
         ((JavascriptExecutor) driver).executeScript ("window.scrollBy(0,350)", "");
 
     }
@@ -145,7 +175,9 @@ public class Reusablecomponents {
      * @param driver @wait will be applied to instance variable of ReusableComponents class
      */
     public void setDriver (WebDriver driver, WebDriverWait wait) {
-        this.driver = driver;
+       
+    	log.info("set the driver and waits in ReusableComponents class");
+    	this.driver = driver;
         this.wait = wait;
     }
 

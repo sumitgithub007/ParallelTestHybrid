@@ -1,20 +1,18 @@
 package testcases;
 
-import java.io.IOException;
+import static enumPackage.CommandType.CLICK;
+import static enumPackage.CommandType.TYPE;
 
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 
 public class SignupTest extends BaseTest {
 
-   
-    @Test
-    public void signUpApplication (){
-        reusablecomponents.Click(gethomePage ().getOpenSignUpModal ());
-        reusablecomponents.Type (gethomePage ().getUsernamesignup (),
-            prop.getProperty ("username")); //remove hardcode data later
-        reusablecomponents.Type (gethomePage ().getPasswordsignup (), prop.getProperty ("password"));
-        reusablecomponents.Click (gethomePage ().getSignup_button ());
-        reusablecomponents.WaitandAcceptAlert ();
-    }
+	@Test
+	public void signUpApplication() {
+		executeCmd(CLICK, gethomePage().getOpenSignUpModal());
+		executeCmd(TYPE, gethomePage().getUsernamesignup(), prop.getProperty("username"));
+		executeCmd(TYPE, gethomePage().getPasswordsignup(), prop.getProperty("password"));
+		executeCmd(CLICK, gethomePage().getSignup_button());
+		reusablecomponents.WaitandAcceptAlert();
+	}
 }

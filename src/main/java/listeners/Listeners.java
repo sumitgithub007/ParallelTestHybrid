@@ -5,8 +5,7 @@ import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 
-import lombok.SneakyThrows;
-
+import emailutility.Mailsend;
 public class Listeners implements ITestListener{
 
 	 
@@ -15,7 +14,7 @@ public class Listeners implements ITestListener{
 	public void onTestStart(ITestResult result) {
 		 
 		
-		  
+		  System.out.println("test");
 		 
 		 
 	}
@@ -52,7 +51,9 @@ public class Listeners implements ITestListener{
 
 	@Override
 	public void onFinish(ITestContext context) {
-		 
+		
+		Mailsend mail = new Mailsend();
+		 mail.sendAttach("index file please check", "INDEXFILE", "goyalsumit319@gmail.com", "udemycourse2211@gmail.com");
 	}
 
 	

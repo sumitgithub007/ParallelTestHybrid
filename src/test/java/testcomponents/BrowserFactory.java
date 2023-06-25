@@ -27,8 +27,9 @@ public class BrowserFactory {
     public final void setDriver (String browser) throws Exception {
 
         if ("chrome".equals (browser)) {
-            WebDriverManager.chromedriver ()
-                .setup ();
+        	
+        	System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir")+"\\src\\main\\resources\\chromebinary\\chromedriver.exe");
+            
             webDriver.set (new ChromeDriver ());
         }
     }

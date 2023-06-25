@@ -1,45 +1,43 @@
 package testcases;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.testng.annotations.Test;
 import static enumPackage.CommandType.*;
 
 public class PurchaseProductTest extends BaseTest {
+	public  Logger log=LogManager.getLogger(getClass());
+	@Test
+	public void loginwebapp() throws InterruptedException {
+		log.info("Running loginwebapp() first because of depenedsOnMethods ");
+		executeCmd(CLICK, gethomePage().getLoginModalOpen());
+		executeCmd(TYPE, gethomePage().getLoginusername(), prop.getProperty("username"));
+		executeCmd(TYPE, gethomePage().getLoginpassword(), prop.getProperty("password"));
+        executeCmd(CLICK, gethomePage().getLogin_button());
+		reusablecomponents.Validation(gethomePage().getLoginperson(), "Welcome" + " " + prop.getProperty("username"));
+		reusablecomponents.refresh ();
+		log.info("loginwebapp() test completed");
 
-    @Test
-    public void loginwebapp () {
-    	executeCmd(CLICK,gethomePage().getLoginModalOpen ());
-    	executeCmd(TYPE,gethomePage ().getLoginusername (),prop.getProperty ("username"));
-    	//System.out.println(prop.getProperty ("password"));
-    	
-    	executeCmd(TYPE, gethomePage ().getLoginpassword(), prop.getProperty ("password"));
-    	//executeCmd(TYPE,gethomePage ().getLoginpassword(),prop.getProperty ("password"));
-    	// reusablecomponents.Type (gethomePage ().getLoginpassword (), prop.getProperty ("password"));
-         
-    	executeCmd(CLICK,gethomePage ().getLogin_button ());
-    
-		/*
-		 * reusablecomponents.Click (gethomePage ().getLogin_button ());
-		 * 
-		 */
-    	reusablecomponents.Validation (gethomePage ().getLoginperson (),"Welcome" + " " + prop.getProperty ("username"));
-        reusablecomponents.refresh ();
+	}
 
-    }
-
-    @Test (dependsOnMethods = {"loginwebapp" })
-    public void purchaseProductFromWebsite () {
-        reusablecomponents.Click (getCartPage ().getSonyXperiaMob ());
-        reusablecomponents.Click (getCartPage ().getAddtoCart ());
-        reusablecomponents.WaitandAcceptAlert ();
-        reusablecomponents.Click (getCartPage ().getCartPageOpen ());
-        reusablecomponents.Click (getCartPage ().getPlaceOrderbutton ());
-        reusablecomponents.Type (getCartPage ().getName (), "sumit");
-        reusablecomponents.Type (getCartPage ().getCountry (), "India");
-        reusablecomponents.Type (getCartPage ().getCity (), "Gwalior");
-        reusablecomponents.Type (getCartPage ().getCreditcard (), "4018034566789090");
-        reusablecomponents.Type (getCartPage ().getMonth (), "August");
-        reusablecomponents.Type (getCartPage ().getYear (), "2023");
-        reusablecomponents.Click (getCartPage ().getPurchaseItemButton ());
-    }
+	@Test(dependsOnMethods = { "loginwebapp" })
+	public void purchaseProductFromWebsite() {
+	
+		log.info("Test Case Start" + LogManager.getLogger(getClass()));
+		executeCmd(CLICK, getCartPage().getSonyXperiaMob());
+		executeCmd(CLICK, getCartPage().getAddtoCart());
+		reusablecomponents.WaitandAcceptAlert();
+		executeCmd(CLICK, getCartPage().getCartPageOpen());
+		executeCmd(CLICK, getCartPage().getPlaceOrderbutton());
+		executeCmd(TYPE, getCartPage().getName(), "sumit");
+		executeCmd(TYPE, getCartPage().getCountry(), "India");
+		executeCmd(TYPE, getCartPage().getCity(), "Gwalior");
+		executeCmd(TYPE, getCartPage().getCreditcard(), "4018034566789090");
+		executeCmd(TYPE, getCartPage().getMonth(), "August");
+		executeCmd(TYPE, getCartPage().getYear(), "2023");
+		executeCmd(CLICK, getCartPage().getPurchaseItemButton());
+		log.info("Test case End " + LogManager.getLogger(getClass()));	
+		 
+	}
 
 }
